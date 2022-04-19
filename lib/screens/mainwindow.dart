@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notas/DAO/turmaDAO.dart';
 import 'package:notas/model/data.dart';
+import 'package:notas/screens/walunos.dart';
 import 'package:notas/screens/wdisciplinas.dart';
+import 'package:notas/screens/wprofs.dart';
 import 'package:notas/screens/wturmas.dart';
 import 'package:vertical_tabs/vertical_tabs.dart';
 
@@ -28,11 +30,15 @@ class _MainWindow extends State<MainWindow> {
           tabsWidth: 150,
           tabs: const <Tab>[
             Tab(child: Text('Turmas'), icon: Icon(Icons.phone)),
+            Tab(child: Text('Professores'), icon: Icon(Icons.phone)),
             Tab(child: Text('Disciplinas'), icon: Icon(Icons.phone)),
+            Tab(child: Text('Alunos'), icon: Icon(Icons.phone)),
           ],
           contents: <Widget>[
             Wturmas(data: widget.data),
+            Wprofs(data: widget.data),
             Wdisciplinas(data: widget.data),
+            Walunos(data: widget.data),
           ]
       );
   }

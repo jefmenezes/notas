@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:notas/model/data.dart';
+import 'package:notas/widgets/adddisciplina.dart';
 import 'package:notas/widgets/set_pesos.dart';
-import 'package:notas/widgets/turmas_table.dart';
+import 'package:notas/widgets/tables/turmas_table.dart';
 import '../DAO/turmaDAO.dart';
 import '../model/turma.dart';
 
@@ -103,7 +104,8 @@ class _Wturmas extends State<Wturmas>{
                 ],
               ),
             ),
-            //PesosWidget(turmas)
+            selected==null ? Container() : PesosWidget(selected!),
+            selected==null ? Container() : AddDiscWidget(selected!, widget.data),
           ],
         )
 

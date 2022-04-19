@@ -13,10 +13,10 @@ class PesosWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController pavc = TextEditingController();
-    TextEditingController psmc = TextEditingController();
-    TextEditingController patc = TextEditingController();
-    TextEditingController psec = TextEditingController();
+    TextEditingController pavc = TextEditingController(text: '${turma.pAV}');
+    TextEditingController psmc = TextEditingController(text: '${turma.pSM}');
+    TextEditingController patc = TextEditingController(text: '${turma.pAT}');
+    TextEditingController psec = TextEditingController(text: '${turma.pSE}');
 
     TextStyle boldStyle = const TextStyle(
       fontWeight: FontWeight.bold,
@@ -33,6 +33,8 @@ class PesosWidget extends StatelessWidget{
       rl.add(r);
     }*/
     return Container(
+      height: 200,
+      width: 200,
       child: Column(
         children: [
           Row(
@@ -55,7 +57,7 @@ class PesosWidget extends StatelessWidget{
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: TextField(
-                    controller: pavc,
+                    controller: psmc,
                   ),
                 ),
               ),
@@ -68,7 +70,7 @@ class PesosWidget extends StatelessWidget{
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: TextField(
-                    controller: pavc,
+                    controller: patc,
                   ),
                 ),
               ),
@@ -81,7 +83,7 @@ class PesosWidget extends StatelessWidget{
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: TextField(
-                    controller: pavc,
+                    controller: psec,
                   ),
                 ),
               ),

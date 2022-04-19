@@ -3,12 +3,13 @@ import 'package:notas/model/diario.dart';
 import 'package:notas/model/disc.dart';
 
 class Prof{
+  final int id;
   final String nome;
   final String email;
   Map<Disc, Diario> diarios = {};
   Map<int, Aluno> tutorandos = {};
 
-  Prof(this.nome, this.email);
+  Prof(this.id, this.nome, this.email);
 
   List<Diario> listDiarios(){
     return diarios.values.toList();

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import '../model/turma.dart';
+import 'package:notas/model/aluno.dart';
+import '../../model/turma.dart';
 
-class TurmaTable extends StatelessWidget{
+class AlunoTable extends StatelessWidget{
 
-  List<Turma> turmas;
-  final Function(Turma) selectChanged;
+  List<Aluno> alunos;
+  final Function(Aluno) selectChanged;
   int selected = 0;
 
-  TurmaTable(this.turmas, this.selectChanged, {Key? key}) : super(key: key);
+  AlunoTable(this.alunos, this.selectChanged, {Key? key}) : super(key: key);
 
 
 
@@ -20,9 +21,9 @@ class TurmaTable extends StatelessWidget{
         ..color = Colors.white,*/
     );
     List<_Row> rl = [];
-    for(Turma t in turmas){
-      _Row r = _Row(t.id, t.serie, t.turma);
-      if(t.id == selected){
+    for(Aluno a in alunos){
+      _Row r = _Row(a.matricula, a.nome, a.turma.toString());
+      if(a.matricula == selected){
         r.selected = true;
       }
       rl.add(r);
@@ -30,19 +31,19 @@ class TurmaTable extends StatelessWidget{
     return PaginatedDataTable(
       showCheckboxColumn: false,
       columns:[
-        DataColumn(label: Text('ID', style: boldStyle)),
-        DataColumn(label: Text('SÉRIE', style: boldStyle)),
+        DataColumn(label: Text('MATRÍCULA', style: boldStyle)),
+        DataColumn(label: Text('NOME', style: boldStyle)),
         DataColumn(label: Text('TURMA', style: boldStyle)),
       ],
-      source: _DataSource(context, rl, selectedTurma),
+      source: _DataSource(context, rl, selectedAluno),
     );
   }
 
-  void selectedTurma(int id){
-    for(Turma t in turmas){
-      if(t.id == id){
-        selected = id;
-        selectChanged(t);
+  void selectedAluno(int matricula){
+    for(Aluno a in alunos){
+      if(a.matricula == matricula){
+        selected = matricula;
+        selectChanged(a);
         break;
       }
     }
@@ -57,7 +58,7 @@ class _Row {
       );
 
   final int A;
-  final int B;
+  final String B;
   final String C;
 
   bool selected = false;
@@ -68,9 +69,9 @@ class _DataSource extends DataTableSource {
   final BuildContext context;
   final List<_Row> _rows;
   final int _selectedCount = 0;
-  final Function(int) selectedTurma;
+  final Function(int) selectedAluno;
 
-  _DataSource(this.context, this._rows, this.selectedTurma);
+  _DataSource(this.context, this._rows, this.selectedAluno);
 
   @override
   DataRow getRow(int index) {
@@ -87,7 +88,7 @@ class _DataSource extends DataTableSource {
             r.selected = false;
           }
           row.selected = value!;
-          selectedTurma(row.A);
+          selectedAluno(row.A);
           notifyListeners();
         }
       },
@@ -95,9 +96,7 @@ class _DataSource extends DataTableSource {
         DataCell(Center(
           child: Text('${row.A}'),
         )),
-        DataCell(Center(
-          child: Text('${row.B}'),
-        )),
+        DataCell(Text(row.B)),
         DataCell(Center(
           child: Text(row.C),
         )),

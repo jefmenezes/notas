@@ -56,12 +56,14 @@ class Data{
     }
 
     for(AlunoDAO ald in alsd){
+      Turma t = turmas[ald.idturma]!;
       Aluno a = Aluno(ald.id, ald.nome, turmas[ald.idturma]!, profs[ald.idtutor]);
       alunos[ald.id] = a;
+      t.addAluno(a);
     }
 
     for(ProfDAO pfd in pfsd){
-      Prof p = Prof(pfd.nome, pfd.email);
+      Prof p = Prof(pfd.id, pfd.nome, pfd.email);
       profs[pfd.id] = p;
     }
 
@@ -112,6 +114,36 @@ class Data{
     return result;
   }
 
+  Future<bool> addDiscTurma(Turma t, Disc d, Prof? p) async{
+    DiarioDAO dd = DiarioDAO(id: getNewDiarioID(), idturma: t.id, idprof: p!.id, iddisc: d.id);
+    List<PaginaDAO> pgsd = [];
+    List<NotaDAO> ntsd = [];
+
+    for(Aluno a in t.listAlunos()){
+      int pid = getNewPaginaID();
+      NotaDAO n1 = NotaDAO(id: getNewNotaID(), idpagina: pid);
+      notas[n1.id] = Nota(0, 0, 0, 0);
+      ntsd.add(n1);
+      NotaDAO n2 = NotaDAO(id: getNewNotaID(), idpagina: pid);
+      notas[n2.id] = Nota(0, 0, 0, 0);
+      ntsd.add(n2);
+      NotaDAO n3 = NotaDAO(id: getNewNotaID(), idpagina: pid);
+      notas[n3.id] = Nota(0, 0, 0, 0);
+      ntsd.add(n3);
+      NotaDAO n4 = NotaDAO(id: getNewNotaID(), idpagina: pid);
+      notas[n4.id] = Nota(0, 0, 0, 0);
+      ntsd.add(n4);
+      PaginaDAO pd = PaginaDAO(id: pid, iddiario: dd.id, idaluno: a.matricula, idn1: n1.id, idn2: n2.id, idn3: n3.id, idn4: n4.id);
+      pgsd.add(pd);
+    }
+    TurmaDAO td = TurmaDAO(id: t.id, serie: t.serie, turma: t.turma, pAV: t.pAV, pSM: t.pSM, pAT: t.pAT, pSE: t.pSE);
+    bool result = await _provider.addTurma(td);
+    if(result){
+      turmas[t.id] = t;
+    }
+    return result;
+  }
+
   Future<bool> deleteTurma(Turma t) async{
     TurmaDAO td = TurmaDAO(id: t.id, serie: t.serie, turma: t.turma, pAV: t.pAV, pSM: t.pSM, pAT: t.pAT, pSE: t.pSE);
     bool result = await _provider.deleteTurma(td);
@@ -148,7 +180,7 @@ class Data{
   Future<bool> addProf(ProfDAO p) async{
     bool result = await _provider.addProf(p);
     if(result){
-      Prof pf = Prof(p.nome, p.email);
+      Prof pf = Prof(p.id, p.nome, p.email);
       profs[p.id] = pf;
     }
     return result;
@@ -202,6 +234,43 @@ class Data{
         return result;
       }
     }
+  }
+
+
+  int getNewDiarioID(){
+    int result = 0;
+    while(true){
+      result++;
+      if(!diarios.containsKey(result)){
+        return result;
+      }
+    }
+  }
+
+  int getNewPaginaID(){
+    int result = 0;
+    while(true){
+      result++;
+      if(!paginas.containsKey(result)){
+        return result;
+      }
+    }
+  }
+
+  int getNewNotaID(){
+    int result = 0;
+    while(true){
+      result++;
+      if(!notas.containsKey(result)){
+        return result;
+      }
+    }
+  }
+
+
+
+  List<Aluno> listAlunos(){
+    return alunos.values.toList();
   }
 
 }

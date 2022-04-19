@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:notas/DAO/discDAO.dart';
 import 'package:notas/model/data.dart';
+import 'package:notas/widgets/tables/aluno_table.dart';
 import 'package:notas/widgets/tables/disc_table.dart';
 import 'package:notas/widgets/tables/turmas_table.dart';
 import '../DAO/turmaDAO.dart';
+import '../model/aluno.dart';
 import '../model/disc.dart';
 import '../providers/gsheets_provider.dart';
 
-class Wdisciplinas extends StatefulWidget{
+class Walunos extends StatefulWidget{
 
   final Data data;
 
-  const Wdisciplinas({required this.data, Key? key,}) : super(key: key);
+  const Walunos({required this.data, Key? key,}) : super(key: key);
 
   @override
-  _Wdisciplinas createState() => _Wdisciplinas();
+  _Walunos createState() => _Walunos();
 
 }
 
-class _Wdisciplinas extends State<Wdisciplinas>{
+class _Walunos extends State<Walunos>{
 
   final idctrl = TextEditingController();
   final nmtrl = TextEditingController();
 
   int id = 0;
+  Aluno? selected;
 
   @override
   void initState(){
-    /*getId().then((val) => setState(() {
-      id = val;
-    }));*/
     super.initState();
   }
 
@@ -38,16 +38,15 @@ class _Wdisciplinas extends State<Wdisciplinas>{
     return Scaffold(
         appBar: AppBar(
           title: const Center(
-            child: Text('Disicplinas'),
+            child: Text('Alunos'),
           ),
         ),
         body: Container(
           child: Column(
             children: [
               Text('$id'),
-              DiscTable(widget.data.listDiscs()),
+              AlunoTable(widget.data.listAlunos(), setSelectedAluno),
               TextField(
-
                 controller: idctrl,
               ),
               TextField(
@@ -68,6 +67,13 @@ class _Wdisciplinas extends State<Wdisciplinas>{
         )
 
     );
+  }
+
+  void setSelectedAluno(Aluno a){
+    selected = a;
+    setState(() {
+
+    });
   }
 
 }

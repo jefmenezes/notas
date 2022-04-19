@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:notas/model/disc.dart';
+import 'package:notas/model/prof.dart';
 
-import '../DAO/discDAO.dart';
+import '../../DAO/discDAO.dart';
+import '../../model/diario.dart';
 
-class DiscTable extends StatelessWidget{
+class DiscProfTable extends StatelessWidget{
 
-  List<DiscDAO> _discs = [];
+  List<Diario> _diarios = [];
 
-  DiscTable(this._discs, {Key? key}) : super(key: key);
+  DiscProfTable(this._diarios, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     TextStyle boldStyle = const TextStyle(fontWeight: FontWeight.bold);
     return PaginatedDataTable(
       columns:[
-        DataColumn(label: Text('ID', style: boldStyle)),
         DataColumn(label: Text('DISCIPLINA', style: boldStyle)),
+        DataColumn(label: Text('PROFESSOR', style: boldStyle)),
       ],
-      source: _DataSource(context, _discs.map((e) => _Row(e.id, e.nome)).toList()),
+      source: _DataSource(context, _diarios.map((e) => _Row(e.disc, e.prof)).toList()),
     );
   }
 }
@@ -28,8 +31,8 @@ class _Row {
       this.B,
       );
 
-  final int A;
-  final String B;
+  final Disc A;
+  final Prof B;
 
   bool selected = false;
 }
@@ -59,10 +62,10 @@ class _DataSource extends DataTableSource {
       },
       cells: [
         DataCell(Center(
-          child: Text('${row.A}'),
+          child: Text(row.A.nome),
         )),
         DataCell(Center(
-          child: Text(row.B),
+          child: Text(row.B.nome),
         )),
       ],
     );

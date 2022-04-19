@@ -6,16 +6,12 @@ import 'package:notas/model/turma.dart';
 class Aluno{
   final int matricula;
   final String nome;
-  Turma _turma;
+  Turma turma;
   Prof? tutor;
   final Map<Disc, Pagina> paginas = {};
 
 
-  Aluno(this.matricula, this.nome, this._turma, this.tutor);
-
-  set turma(Turma value) {
-    _turma = value;
-  }
+  Aluno(this.matricula, this.nome, this.turma, this.tutor);
 
   List<Pagina> listPaginas(){
     return paginas.values.toList();
